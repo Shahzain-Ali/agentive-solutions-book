@@ -1,0 +1,227 @@
+/* Hero */
+.hero {
+  padding: 5rem 2rem 4rem;
+  text-align: center;
+  background: linear-gradient(160deg, #1b1526 0%, #2a1f3d 60%, #1b1526 100%);
+  color: #fff;
+}
+
+.heroBadge {
+  display: inline-block;
+  padding: 0.35rem 1rem;
+  border: 1px solid rgba(234, 75, 113, 0.5);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: #f3a5ba;
+  margin-bottom: 1.5rem;
+}
+
+.heroTitle {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #ea4b71 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.heroTagline {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #f1eef7;
+  max-width: 640px;
+  margin: 0 auto 0.75rem;
+}
+
+.heroSub {
+  font-size: 1.05rem;
+  color: #b9aed1;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.heroButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.primaryBtn {
+  padding: 0.85rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: linear-gradient(135deg, #ea4b71 0%, #8b5cf6 100%);
+  color: #fff;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.primaryBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(234, 75, 113, 0.4);
+  color: #fff;
+  text-decoration: none;
+}
+
+.secondaryBtn {
+  padding: 0.85rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #f1eef7;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.secondaryBtn:hover {
+  border-color: #ea4b71;
+  color: #f3a5ba;
+  text-decoration: none;
+}
+
+/* Sections */
+.section {
+  padding: 4rem 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.sectionAlt {
+  max-width: none;
+  background: var(--ifm-color-emphasis-100);
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.sectionSub {
+  color: var(--ifm-color-emphasis-600);
+  margin-bottom: 2.5rem;
+}
+
+/* Book cards */
+.bookGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.bookCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  padding: 1.75rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 0.75rem;
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-font-color-base);
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.bookCardActive:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -8px rgba(234, 75, 113, 0.25);
+  border-color: #ea4b71;
+  color: var(--ifm-font-color-base);
+  text-decoration: none;
+}
+
+.bookIcon {
+  font-size: 2.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.bookMeta {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #ea4b71;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.bookSubtitle {
+  color: var(--ifm-color-emphasis-600);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.bookDescription {
+  font-size: 0.95rem;
+  color: var(--ifm-color-emphasis-700);
+  flex-grow: 1;
+}
+
+.readBadge {
+  font-weight: 700;
+  color: #ea4b71;
+}
+
+.soonBadge {
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-500);
+  border: 1px dashed var(--ifm-color-emphasis-300);
+  border-radius: 999px;
+  padding: 0.2rem 0.9rem;
+  font-size: 0.85rem;
+}
+
+/* Steps */
+.stepGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.stepCard {
+  padding: 1.5rem;
+}
+
+.stepIcon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Final CTA */
+.finalCta {
+  padding: 4rem 2rem 5rem;
+  text-align: center;
+  background: linear-gradient(160deg, #1b1526 0%, #2a1f3d 100%);
+  color: #fff;
+}
+
+.finalCta h2 {
+  font-size: 1.9rem;
+}
+
+.finalCta p {
+  color: #b9aed1;
+  margin-bottom: 1.75rem;
+}
+
+@media (max-width: 600px) {
+  .heroTitle {
+    font-size: 2.1rem;
+  }
+
+  .hero {
+    padding: 3.5rem 1.25rem 3rem;
+  }
+}
