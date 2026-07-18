@@ -76,6 +76,9 @@ ENV/
 # Claude Code local settings (personal permissions)
 .claude/settings.local.json
 
+# Prompt History Records — internal work records, keep local only
+history/
+
 # Backend specific
 backend/__pycache__/
 backend/*.py[cod]

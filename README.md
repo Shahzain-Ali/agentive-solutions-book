@@ -45,4 +45,5 @@ Lesson content is authored in the [n8n-mastery](https://github.com/Shahzain-Ali/
 
 ## License
 
-MIT
+- **Code** (site config, components, backend, scripts): [MIT](LICENSE)
+- **Course content** (`docs/`, slides, resources): All Rights Reserved — see [LICENSE-CONTENT.md](LICENSE-CONTENT.md)
