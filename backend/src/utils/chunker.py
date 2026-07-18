@@ -8,6 +8,9 @@ import re
 from typing import List, Dict, Tuple
 import tiktoken
 
+# Section titles (lowercased) that should never be embedded — pure navigation
+SKIP_SECTIONS = {"table of contents"}
+
 
 class MarkdownChunker:
     """
@@ -163,6 +166,11 @@ class MarkdownChunker:
         all_chunks = []
 
         for i, section in enumerate(sections):
+            # Navigation/boilerplate sections carry no teaching content — skip
+            section_title = self._extract_section_title(section)
+            if section_title.strip().lower() in SKIP_SECTIONS:
+                continue
+
             # Count tokens in the section
             section_tokens = self.count_tokens(section)
 

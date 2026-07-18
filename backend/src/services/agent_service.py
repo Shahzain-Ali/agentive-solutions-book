@@ -39,6 +39,13 @@ client = AsyncOpenAI(api_key=openai_api_key)
 # shown to the model nor cited to the user
 MIN_RELEVANCE_SCORE = 0.3
 
+# Retrieve wide, cite narrow: the model sees all relevant chunks, but the
+# user is shown only the top citations
+MAX_CITED_SOURCES = 2
+
+# Section titles (lowercased) that must never appear as citations
+NON_CITABLE_SECTIONS = {"table of contents"}
+
 
 @dataclass
 class RetrievalContext:
@@ -65,6 +72,8 @@ async def search_book_content(ctx: RunContextWrapper[RetrievalContext], query: s
         return "No relevant book content found for this query."
 
     for result in relevant:
+        if result["section"].strip().lower() in NON_CITABLE_SECTIONS:
+            continue
         citation = SourceCitation(
             page=result["page"],
             section=result["section"],
@@ -245,9 +254,14 @@ class AgentService:
             context=retrieval_context
         )
 
-        # Extract the response and the sources the agent actually used
+        # Extract the response and the sources the agent actually used —
+        # cite only the top few by relevance
         response_text = result.final_output
-        sources = retrieval_context.sources
+        sources = sorted(
+            retrieval_context.sources,
+            key=lambda s: s.get("relevance_score", 0),
+            reverse=True,
+        )[:MAX_CITED_SOURCES]
 
         # Create chat message in database
         user_message = ChatMessage(
