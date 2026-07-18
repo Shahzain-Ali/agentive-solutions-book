@@ -48,9 +48,9 @@ const config = {
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
-        // Google Analytics 4 — replace with your real Measurement ID before deploy
+        // Google Analytics 4
         gtag: {
-          trackingID: 'G-XXXXXXXXXX',
+          trackingID: 'G-8Z5NYX6WLN',
           anonymizeIP: true,
         },
       }),
