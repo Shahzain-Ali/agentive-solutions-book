@@ -1,6 +1,6 @@
 # RAG Chatbot Backend
 
-Backend API for the RAG Chatbot Integration feature, providing semantic search and AI-powered Q&A capabilities for the Physical AI & Humanoid Robotics course content.
+Backend API for the RAG Chatbot Integration feature, providing semantic search and AI-powered Q&A capabilities for the Agentive Solutions interactive book content.
 
 ## Overview
 

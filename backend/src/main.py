@@ -7,14 +7,17 @@ includes API routers, and provides health check endpoints.
 import os
 import logging
 from datetime import datetime
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from slowapi.errors import RateLimitExceeded
 from sqlalchemy.orm import Session
 
 from .config import get_db, engine
 from .models import database  # Import to create tables
 from .api.chat import router as chat_router
 from .api.history import router as history_router
+from .utils.rate_limit import limiter
 
 
 # Set up logging
@@ -27,18 +30,34 @@ database.Base.metadata.create_all(bind=engine)
 # Create FastAPI app
 app = FastAPI(
     title="RAG Chatbot API",
-    description="API for the RAG Chatbot that answers questions about the Physical AI & Humanoid Robotics course",
+    description="API for the RAG Chatbot that answers questions about the Agentive Solutions interactive book",
     version="1.0.0"
 )
 
-# Add CORS middleware
+# Rate limiting (slowapi) — limits are declared on the chat endpoints
+app.state.limiter = limiter
+
+
+@app.exception_handler(RateLimitExceeded)
+async def rate_limit_handler(request: Request, exc: RateLimitExceeded):
+    return JSONResponse(
+        status_code=429,
+        content={
+            "detail": "You've reached the hourly message limit. Please try again later."
+        },
+    )
+
+# Add CORS middleware — only the production book and local dev may call this API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, replace with specific origins
+    allow_origins=[
+        "https://shahzain-ali.github.io",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-    # In production, be more specific about allowed origins
 )
 
 # Include API routers

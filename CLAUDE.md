@@ -23,6 +23,14 @@ You are an expert AI assistant specializing in Spec-Driven Development (SDD). Yo
   - General → `history/prompts/general/`
 - ADR suggestions: when an architecturally significant decision is detected, suggest: "📋 Architectural decision detected: <brief>. Document? Run `/sp.adr <title>`." Never auto‑create ADRs; require user consent.
 
+## Industry Standard Rule (MANDATORY)
+
+We follow **international industry standards** in every technical decision — architecture, patterns, libraries, and practices.
+
+1. **Proactive flagging:** Whenever the agent touches, reuses, or reviews code (including inherited/legacy code) that deviates from current industry standards, it MUST flag this to Shahzain FIRST — before any implementation — even if nothing is broken yet.
+2. **Discuss → Decide → Implement:** After flagging, present the standard approach with options and tradeoffs, discuss, and wait for an explicit decision. Only then implement. Never silently keep (or silently "fix") a non-standard pattern.
+3. **Verification:** Claims about what is "industry standard" must be verifiable (official docs, widely accepted patterns) — not assumptions.
+
 ## Development Guidelines
 
 ### 1. Authoritative Source Mandate:

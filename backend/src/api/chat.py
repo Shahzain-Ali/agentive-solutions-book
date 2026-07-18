@@ -7,7 +7,7 @@ returns AI-generated responses with source citations.
 """
 import uuid
 from typing import Optional
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from sqlalchemy.orm import Session
 from datetime import datetime
 import logging
@@ -15,6 +15,7 @@ import logging
 from ..models.schemas import ChatRequest, ChatResponse
 from ..services.agent_service import agent_service
 from ..config import get_db
+from ..utils.rate_limit import limiter, CHAT_RATE_LIMIT
 from ..utils.validators import validate_message_content, sanitize_input
 
 
@@ -26,7 +27,9 @@ router = APIRouter()
 
 
 @router.post("/chat", response_model=ChatResponse)
+@limiter.limit(CHAT_RATE_LIMIT)
 async def chat_endpoint(
+    request: Request,
     chat_request: ChatRequest,
     db: Session = Depends(get_db)
 ):
@@ -75,7 +78,9 @@ async def chat_endpoint(
 
 
 @router.post("/chat/stream", response_model=ChatResponse)
+@limiter.limit(CHAT_RATE_LIMIT)
 async def chat_stream_endpoint(
+    request: Request,
     chat_request: ChatRequest,
     db: Session = Depends(get_db)
 ):

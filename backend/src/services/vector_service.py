@@ -55,10 +55,11 @@ class VectorService:
             List of similar content with metadata
         """
         try:
-            # Perform semantic search in Qdrant
-            search_results = await self.client.search(
+            # Perform semantic search in Qdrant (query_points replaced the
+            # removed search() API in qdrant-client >= 1.12)
+            query_response = await self.client.query_points(
                 collection_name=self.collection_name,
-                query_vector=query_embedding,
+                query=query_embedding,
                 limit=limit,
                 with_payload=True,
                 with_vectors=False
@@ -66,7 +67,7 @@ class VectorService:
 
             # Format results
             results = []
-            for hit in search_results:
+            for hit in query_response.points:
                 result = {
                     "id": hit.id,
                     "text": hit.payload.get("text", ""),
@@ -223,7 +224,8 @@ class VectorService:
 
             filter_obj = models.Filter(must=must_conditions)
 
-            search_results = await self.client.search(
+            # query_points replaced the removed search() API in qdrant-client >= 1.12
+            query_response = await self.client.query_points(
                 collection_name=self.collection_name,
                 query_filter=filter_obj,
                 limit=limit,
@@ -231,7 +233,7 @@ class VectorService:
             )
 
             results = []
-            for hit in search_results:
+            for hit in query_response.points:
                 result = {
                     "id": hit.id,
                     "text": hit.payload.get("text", ""),

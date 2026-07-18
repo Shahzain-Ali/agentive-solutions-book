@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 // Note: Using custom UI implementation since ChatKit requires OpenAI's backend infrastructure
 // The @openai/chatkit-react package is kept for hackathon requirements compliance
 import './ChatWidget.css';
@@ -50,22 +51,20 @@ const ChatWidget = forwardRef((props, ref) => {
     }
   }));
 
-  // Get API URL - prioritize Docusaurus siteConfig, then environment variables
-  let apiUrl = 'https://alitechpro-physical-ai-book-fastapi.hf.space'; // default fallback
+  // Get API URL from Docusaurus siteConfig (set via customFields.apiUrl /
+  // REACT_APP_API_URL env var in docusaurus.config.js)
+  const { siteConfig } = useDocusaurusContext();
+  const customFields = siteConfig?.customFields;
 
-  if (typeof window !== 'undefined' && window.__docusaurus) {
-    // Access Docusaurus site config
-    const docusaurusConfig = window.__docusaurus;
-    const customFields = docusaurusConfig?.siteConfig?.customFields;
-    if (customFields && customFields.REACT_APP_API_URL) {
-      apiUrl = customFields.REACT_APP_API_URL;
-    } else if (customFields && customFields.apiUrl) {
-      apiUrl = customFields.apiUrl;
-    }
+  let apiUrl = '';
+  if (customFields && customFields.REACT_APP_API_URL) {
+    apiUrl = customFields.REACT_APP_API_URL;
+  } else if (customFields && customFields.apiUrl) {
+    apiUrl = customFields.apiUrl;
   }
 
   // Fallback to window property if set by user
-  if (typeof window !== 'undefined' && window.REACT_APP_API_URL) {
+  if (!apiUrl && typeof window !== 'undefined' && window.REACT_APP_API_URL) {
     apiUrl = window.REACT_APP_API_URL;
   }
 
@@ -109,6 +108,15 @@ const ChatWidget = forwardRef((props, ref) => {
       });
 
       if (!response.ok) {
+        if (response.status === 429) {
+          setMessages(prev => [...prev, {
+            id: `error_${Date.now()}`,
+            role: 'system',
+            content: '⏳ You\'ve reached the hourly message limit. Please try again later.',
+            timestamp: new Date().toISOString(),
+          }]);
+          return;
+        }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
@@ -252,8 +260,7 @@ const ChatWidget = forwardRef((props, ref) => {
                           }
 
                           // Get baseUrl from Docusaurus config
-                          const baseUrl = (typeof window !== 'undefined' && window.__docusaurus?.siteConfig?.baseUrl)
-                            || '/agentive-solutions-book/';
+                          const baseUrl = siteConfig?.baseUrl || '/agentive-solutions-book/';
 
                           // Construct absolute path: /agentive-solutions-book/docs/n8n-mastery/lesson-01
                           const fullUrl = `${baseUrl}docs/${cleanUrl}`;

@@ -7,13 +7,14 @@ RAG-based responses with source citations.
 """
 import os
 import uuid
+from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Any
 from datetime import datetime
 import asyncio
 from sqlalchemy.orm import Session
 from dotenv import load_dotenv
 from openai import AsyncOpenAI
-from agents import Agent, Runner
+from agents import Agent, Runner, RunContextWrapper, function_tool
 from agents.extensions.memory import SQLAlchemySession
 
 from ..models.database import ChatSession, ChatMessage
@@ -34,6 +35,53 @@ else:
 # Initialize OpenAI async client
 client = AsyncOpenAI(api_key=openai_api_key)
 
+# Sources below this cosine-similarity score are treated as noise and neither
+# shown to the model nor cited to the user
+MIN_RELEVANCE_SCORE = 0.3
+
+
+@dataclass
+class RetrievalContext:
+    """Per-request context that collects the sources the agent actually retrieved."""
+    sources: List[Dict] = field(default_factory=list)
+
+
+@function_tool
+async def search_book_content(ctx: RunContextWrapper[RetrievalContext], query: str) -> str:
+    """Search the Agentive Solutions book for content relevant to the query.
+
+    Use this tool whenever the user asks anything about the book/course content
+    (n8n, automation, workflows, lessons, etc.). Do NOT use it for greetings or
+    small talk.
+
+    Args:
+        query: A focused search query describing what to look up in the book.
+    """
+    query_embedding = await embedding_service.generate_embedding(query)
+    results = await vector_service.search_similar(query_embedding, limit=5)
+
+    relevant = [r for r in results if r["relevance_score"] >= MIN_RELEVANCE_SCORE]
+    if not relevant:
+        return "No relevant book content found for this query."
+
+    for result in relevant:
+        citation = SourceCitation(
+            page=result["page"],
+            section=result["section"],
+            url=result["url"],
+            relevance_score=result["relevance_score"]
+        ).dict()
+        # Deduplicate by page + section across multiple tool calls
+        if not any(
+            s["page"] == citation["page"] and s["section"] == citation["section"]
+            for s in ctx.context.sources
+        ):
+            ctx.context.sources.append(citation)
+
+    return "\n\n".join(
+        f"[Source: {r['page']} — {r['section']}]\n{r['text']}" for r in relevant
+    )
+
 
 class AgentService:
     """
@@ -48,21 +96,28 @@ class AgentService:
             model: OpenAI model to use for responses
         """
         self.model = model
-        # Initialize the main RAG agent
-        self.agent = Agent(
+        # Initialize the main RAG agent with retrieval as a tool (agentic RAG):
+        # the agent decides per message whether book search is needed
+        self.agent = Agent[RetrievalContext](
             name="RAG Chatbot",
             instructions="""
-            You are an AI assistant for the Physical AI & Humanoid Robotics course.
-            Your purpose is to answer questions about the course content based on the provided context.
+            You are the AI tutor for the Agentive Solutions interactive book — a growing library of AI automation and agentic AI courses (n8n, AI agents, and more as new books are added).
+            Your purpose is to answer questions about the book content.
 
             Guidelines:
-            1. Only use information from the provided context to answer questions
-            2. If the context doesn't contain information to answer the question, say so
-            3. Be accurate and cite sources when possible
-            4. Keep responses concise but informative
-            5. If the question is off-topic (not related to Physical AI, Humanoid Robotics, ROS 2, NVIDIA Isaac, etc.), politely decline and ask about course topics
+            1. For any question about the book/course content, ALWAYS use the search_book_content tool first, and answer only from what it returns
+            2. Content questions may be in ANY language (English, Roman Urdu, etc.) — a Roman Urdu question about n8n is still a content question; ALWAYS search first. Never claim the book lacks content without searching.
+            3. For greetings and small talk, reply briefly and warmly WITHOUT using the tool
+            4. If the tool returns no relevant content for the question, say the book doesn't cover it yet
+            5. Be accurate and cite sources when possible
+            6. Keep responses concise but informative
+            7. Language rule (in priority order):
+               a. If the user explicitly requests a language (e.g. "answer in Roman Urdu", "reply in Chinese"), reply in THAT language.
+               b. Otherwise, reply in the SAME language as the user's most recent message — regardless of the language of the retrieved book content or earlier conversation.
+            8. If the question is off-topic (unrelated to the book content), politely decline and ask about book topics
             """,
-            model=self.model
+            model=self.model,
+            tools=[search_book_content]
         )
 
     def get_or_create_session(self, db: Session, user_id: str, session_id: Optional[str] = None) -> ChatSession:
@@ -149,44 +204,11 @@ class AgentService:
         # Get or create session
         session = self.get_or_create_session(db, chat_request.user_id, chat_request.session_id)
 
-        # If selected text is provided, include it in the context
-        context_text = sanitized_message
+        # If selected text is provided, include it alongside the question;
+        # retrieval itself is handled by the agent via the search tool
+        user_input = sanitized_message
         if chat_request.selected_text:
-            context_text = f"Context from selected text: {chat_request.selected_text}\n\nQuestion: {sanitized_message}"
-
-        # Generate embedding for the query
-        query_embedding = await embedding_service.generate_embedding(context_text)
-
-        # Search for similar content in the vector database
-        search_results = await vector_service.search_similar(query_embedding, limit=5)
-
-        # Build context from search results
-        context_parts = []
-        sources = []
-        for result in search_results:
-            context_parts.append(result["text"])
-
-            # Create source citation
-            source = SourceCitation(
-                page=result["page"],
-                section=result["section"],
-                url=result["url"],
-                relevance_score=result["relevance_score"]
-            )
-            sources.append(source.dict())
-
-        # Combine all context parts
-        combined_context = "\n\n".join(context_parts)
-
-        # Create the full prompt for the AI with the retrieved context
-        full_prompt = f"""
-        Course Context:
-        {combined_context}
-
-        User Question: {sanitized_message}
-
-        Please provide an accurate answer based on the course context, and cite your sources.
-        """
+            user_input = f"Context from selected text: {chat_request.selected_text}\n\nQuestion: {sanitized_message}"
 
         # Get the database URL and convert it to asyncpg format for the Agent SDK
         db_url = os.getenv("NEON_DATABASE_URL", "").strip()
@@ -213,15 +235,19 @@ class AgentService:
             create_tables=True
         )
 
-        # Run the agent with the full prompt and session
+        # Run the agent; it decides whether to call the search tool, and the
+        # RetrievalContext collects only the sources it actually retrieved
+        retrieval_context = RetrievalContext()
         result = await Runner.run(
             self.agent,
-            full_prompt,
-            session=sql_session
+            user_input,
+            session=sql_session,
+            context=retrieval_context
         )
 
-        # Extract the response from the agent
+        # Extract the response and the sources the agent actually used
         response_text = result.final_output
+        sources = retrieval_context.sources
 
         # Create chat message in database
         user_message = ChatMessage(
