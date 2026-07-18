@@ -23,9 +23,10 @@ const config = {
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
-  // Custom fields for RAG Chatbot configuration (Phase 2 — new backend URL goes here)
+  // Custom fields for RAG Chatbot configuration
+  // (env var overrides for local dev: REACT_APP_API_URL=http://localhost:8000)
   customFields: {
-    apiUrl: process.env.REACT_APP_API_URL || '',
+    apiUrl: process.env.REACT_APP_API_URL || 'https://agentive-solutions-book.onrender.com',
   },
 
   i18n: {
