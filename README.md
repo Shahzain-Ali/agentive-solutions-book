@@ -69,7 +69,7 @@ cp ../.env.example ../.env   # fill in your keys
 
 ## Content Source
 
-n8n Mastery lesson content is authored in the [n8n-mastery](https://github.com/Shahzain-Ali/n8n-mastery) course repo and copied here as-is — the notes are the single source of truth. The RAG for Automation book is authored directly in this repo.
+All course material (n8n Mastery, RAG for Automation, Standalone Guides) is authored and published directly in this repo — this book is the single public source of truth for all content.
 
 ## License
 

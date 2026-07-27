@@ -31,6 +31,15 @@ We follow **international industry standards** in every technical decision — a
 2. **Discuss → Decide → Implement:** After flagging, present the standard approach with options and tradeoffs, discuss, and wait for an explicit decision. Only then implement. Never silently keep (or silently "fix") a non-standard pattern.
 3. **Verification:** Claims about what is "industry standard" must be verifiable (official docs, widely accepted patterns) — not assumptions.
 
+## Documentation Authoring Rule (MANDATORY)
+
+Before writing or migrating **any** book documentation (lesson, standalone guide, chapter), read these two files first — they define the mandatory structure, quality bar, and Doc-Brief process for every guide in this project:
+
+- `/mnt/e/all-documentations/CONTRIBUTING.md`
+- `/mnt/e/all-documentations/documents-standard.md`
+
+Do not start drafting content until both have been read for the current session/task.
+
 ## Development Guidelines
 
 ### 1. Authoritative Source Mandate:

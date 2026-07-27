@@ -26,6 +26,14 @@ const sidebars = {
         'n8n-mastery/coming-soon',
       ],
     },
+    {
+      type: 'category',
+      label: '🎯 Standalone Guides',
+      collapsed: false,
+      items: [
+        'standalone-guides/ai-automation-vs-ai-agents',
+      ],
+    },
   ],
 };
 

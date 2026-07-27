@@ -121,10 +121,6 @@ const config = {
                 label: 'Book GitHub',
                 href: 'https://github.com/Shahzain-Ali/agentive-solutions-book',
               },
-              {
-                label: 'n8n Course GitHub',
-                href: 'https://github.com/Shahzain-Ali/n8n-mastery',
-              },
             ],
           },
         ],

@@ -408,7 +408,7 @@ A: Running the software on your own server/computer instead of the vendor's clou
 
 ---
 
-*n8n Complete Course · SolutionsWithShahzain · [GitHub](https://github.com/Shahzain-Ali/n8n-mastery) · [YouTube](https://www.youtube.com/@SolutionsWithShahzain) · [LinkedIn](https://www.linkedin.com/in/shahzain-ali1/) · [Instagram](https://www.instagram.com/shahzainalibangash1/) · [Facebook](https://www.facebook.com/shahzainalibangash1/)*
+*n8n Complete Course · SolutionsWithShahzain · [GitHub](https://github.com/Shahzain-Ali/agentive-solutions-book) · [YouTube](https://www.youtube.com/@SolutionsWithShahzain) · [LinkedIn](https://www.linkedin.com/in/shahzain-ali1/) · [Instagram](https://www.instagram.com/shahzainalibangash1/) · [Facebook](https://www.facebook.com/shahzainalibangash1/)*
 
 ---
 
