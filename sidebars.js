@@ -28,6 +28,14 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: '📕 RAG for Automation',
+      collapsed: false,
+      items: [
+        'rag-for-automation/lesson-01',
+      ],
+    },
+    {
+      type: 'category',
       label: '🎯 Standalone Guides',
       collapsed: false,
       items: [

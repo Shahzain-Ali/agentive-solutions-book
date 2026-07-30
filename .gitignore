@@ -82,6 +82,12 @@ history/
 # Internal planning/curriculum docs — not published book content, keep local only
 planning/
 
+# Thumbnail design files for playlists — not published book content, keep local only
+all-thumbnail-of-course-material/
+
+# Slide source files (HTML + exported PDFs) — the published copy lives in static/resources/
+slides/
+
 # Backend specific
 backend/__pycache__/
 backend/*.py[cod]
