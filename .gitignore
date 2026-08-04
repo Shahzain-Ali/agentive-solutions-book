@@ -79,8 +79,12 @@ ENV/
 # Prompt History Records — internal work records, keep local only
 history/
 
-# Internal planning/curriculum docs. Tracked on purpose — Docusaurus only builds
-# from docs/, so these stay versioned and backed up but are never published.
+# Internal planning/curriculum docs — kept out of this public repo.
+# Backed up separately in a private repo (planning/ has its own git remote).
+planning/
+
+# Slides standard — kept private alongside the planning docs
+slides-standard.md
 
 # Thumbnail design files for playlists — not published book content, keep local only
 all-thumbnail-of-course-material/
