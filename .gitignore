@@ -101,3 +101,8 @@ backend/venv/
 backend/env/
 backend/ENV/
 backend/.python-version
+
+# Internal standards + project instructions — private, backed up separately
+CONTRIBUTING.md
+documents-standard.md
+CLAUDE.md
