@@ -79,8 +79,8 @@ ENV/
 # Prompt History Records — internal work records, keep local only
 history/
 
-# Internal planning/curriculum docs — not published book content, keep local only
-planning/
+# Internal planning/curriculum docs. Tracked on purpose — Docusaurus only builds
+# from docs/, so these stay versioned and backed up but are never published.
 
 # Thumbnail design files for playlists — not published book content, keep local only
 all-thumbnail-of-course-material/

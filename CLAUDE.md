@@ -33,12 +33,13 @@ We follow **international industry standards** in every technical decision — a
 
 ## Documentation Authoring Rule (MANDATORY)
 
-Before writing or migrating **any** book documentation (lesson, standalone guide, chapter), read these two files first — they define the mandatory structure, quality bar, and Doc-Brief process for every guide in this project:
+Before writing or migrating **any** book documentation (lesson, standalone guide, chapter) or slide deck, read these three files first — they are the **single source of truth** for structure, quality bar, and the Doc-Brief process:
 
-- `/mnt/e/all-documentations/CONTRIBUTING.md`
-- `/mnt/e/all-documentations/documents-standard.md`
+- `CONTRIBUTING.md` — repo structure, quality bar, trusted sources
+- `documents-standard.md` — the lesson document blueprint
+- `slides-standard.md` — slide deck process, design system, QA
 
-Do not start drafting content until both have been read for the current session/task.
+All three live in this repo root and are the **only** copies — no duplicates anywhere else on the machine. Do not start drafting until the relevant files have been read for the current session/task.
 
 ## Development Guidelines
 

@@ -56,19 +56,55 @@ Every guide in this repo must meet these:
 
 ## 📁 Structure Conventions
 
-- One topic = one **numbered folder** (`01-`, `02-`, …) with a `README.md` inside.
-- Keep the root [`README.md`](./README.md) index updated — add a row for each new guide.
-- Shared images go in [`assets/`](./assets/).
+This repo is the **Agentive Solutions interactive book** (Docusaurus). All published content lives
+under `docs/`, organised by book:
+
+```
+docs/
+  <book-name>/            e.g. n8n-mastery/ , rag-for-automation/
+    lesson-01.md          one lesson = one file = one video episode
+    lesson-02.md
+  standalone-guides/      one-off guides that belong to no book
+planning/                 curricula and playlist plans (not published)
+```
+
+**The three standards files (repo root):**
+
+| File | Governs |
+|---|---|
+| `CONTRIBUTING.md` | repo structure, quality bar, trusted sources (this file) |
+| `documents-standard.md` | the lesson document blueprint |
+| `slides-standard.md` | the slide deck — process, design system, QA |
+
+- **One lesson = one file = one episode.** File name is `lesson-NN.md`, zero-padded.
+- Every lesson file needs Docusaurus front-matter: `id`, `sidebar_position`, `sidebar_label`,
+  `description`.
+- Sidebar order comes from `sidebar_position` — keep it in sync with the episode number.
+- A book's curriculum lives in `planning/<book>-plan.md` and is the source of truth for what each
+  episode covers. Update the plan **before** writing a lesson that deviates from it.
+- Shared images go in `static/img/`.
 - Use a real, tested example over a toy one wherever possible.
+
+> **Note:** an older version of this rule described numbered folders each containing a `README.md`.
+> That convention belonged to the pre-Docusaurus notes repo and no longer applies here.
 
 ---
 
 ## 🔗 Trusted Sources (verify against these)
 
-- Official n8n docs: <https://docs.n8n.io>
-- n8n Academy (courses): <https://learn.n8n.io>
-- n8n templates library: <https://n8n.io/workflows>
+Always verify against the **official** source for whatever the lesson covers — never from memory,
+never from a blog summary. For the current books that means:
+
+- Official n8n docs: <https://docs.n8n.io> · release notes: <https://docs.n8n.io/release-notes>
+- n8n Academy (courses): <https://learn.n8n.io> · templates library: <https://n8n.io/workflows>
+- OpenAI platform docs: <https://platform.openai.com/docs>
+- Qdrant docs: <https://qdrant.tech/documentation>
+- Original papers for any named technique (e.g. RAG → Lewis et al., 2020)
 - Node/tool official repos and changelogs
+
+**Inherited claims count as unverified.** A fact copied from an earlier lesson, a plan file, or a
+previous draft is not verified just because it is already written down. Re-check it against the
+original source, and record the check date in that lesson's Sources section.
 
 ---
 
