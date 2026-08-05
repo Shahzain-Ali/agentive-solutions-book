@@ -89,7 +89,7 @@ Apna instance kholo (`yourname.app.n8n.cloud`). Left sidebar mein yeh items hain
 
 1. **Overview** — click karo → dashboard: saare workflows + recent executions ek jagah. Yeh aapka home hai.
 2. **Workflows** — aapke bane hue saare workflows ki list. Top-right **"Create Workflow"** button se naya blank canvas khulta hai (abhi mat banao — Lesson 4 mein).
-3. **Credentials** — apps ke saved logins (Gmail, Sheets waghera). Abhi khali hai. *Detail Lesson 17 mein — abhi sirf jaan lo ke yeh jagah hai.*
+3. **Credentials** — apps ke saved logins (Gmail, Sheets waghera). Abhi khali hai. *Detail Lesson 22 mein — abhi sirf jaan lo ke yeh jagah hai.*
 4. **Executions** — har workflow run ka record. Is lesson ke Section 7 mein dekhenge.
 
 `[screenshot: left-panel.png — capture on recording day]`
@@ -171,7 +171,7 @@ Left panel → **Executions**:
 
 Workflows raat 3 baje chalte hain jab aap sote ho. Executions panel woh recording hai jo subah check karte ho — kya chala, kya kaam kiya, kya toota. **Jab bhi kuch "kaam nahi kar raha" lage — pehla stop yahi hai.**
 
-*Debugging ki poori depth Lesson 13 mein — abhi sirf yeh jaano ke yeh panel exist karta hai aur kahan hai.*
+*Debugging ki poori depth Lesson 16 mein — abhi sirf yeh jaano ke yeh panel exist karta hai aur kahan hai.*
 
 `[screenshot: executions-panel.png — capture on recording day]`
 
@@ -270,7 +270,7 @@ Answer first, then check below.
 
 **Q2: (c)** — `1` = zoom to fit. Har lost moment ka one-key hal.
 
-**Q3: (b)** — Executions panel har run record karta hai — chala ya nahi, kahan toota, kya data tha. Debugging hamesha yahan se shuru hoti hai (depth Lesson 13 mein).
+**Q3: (b)** — Executions panel har run record karta hai — chala ya nahi, kahan toota, kya data tha. Debugging hamesha yahan se shuru hoti hai (depth Lesson 16 mein).
 
 **Q4: (b)** — Search beats browsing. 3 letters + Enter — pro habit.
 

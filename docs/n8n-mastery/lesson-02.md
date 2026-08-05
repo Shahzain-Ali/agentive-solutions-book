@@ -88,7 +88,7 @@ n8n chalane ke sirf 2 tareeqe hain:
 
 **Cloud = hotel room:** sab kuch ready, room service milti hai, lekin kiraya har mahine. **Self-hosted = apna ghar:** aapka hai, hamesha ke liye, koi kiraya nahi — lekin bulb bhi aap hi badloge.
 
-> **Docker kya hai?** Abhi ke liye sirf itna: ek tool jo software ko "packaged box" ki tarah kisi bhi computer per chala deta hai. Poora Docker Lesson 37 (Module 6) mein — abhi iski fikar mat karo.
+> **Docker kya hai?** Abhi ke liye sirf itna: ek tool jo software ko "packaged box" ki tarah kisi bhi computer per chala deta hai. Poora Docker Lesson 50 (Module 6) mein — abhi iski fikar mat karo.
 
 ---
 

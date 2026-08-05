@@ -121,7 +121,7 @@ Aap restaurant ko call nahi karte, rider ko coordinate nahi karte, kitchen ko fo
 | **Scale** | Aap se zyada nahi barh sakta | 10 items ho ya 10,000 — same |
 | **Energy** | Boring kaam energy khata hai | Aap growth pe focus karte ho |
 
-**Yaad rakhne wali baat:** Businesses isi farq ke liye paise dete hain. Ek dukaandar jo roz raat ko 2 ghante manually orders ka hisaab karta hai — agar aap woh 2 ghante zero kar do, to aapne usse mahine ke 60 ghante bacha diye. Us waqt ki value hi aapki fees hai. (Yehi freelancing ka core logic hai — Lesson 41 mein detail se.)
+**Yaad rakhne wali baat:** Businesses isi farq ke liye paise dete hain. Ek dukaandar jo roz raat ko 2 ghante manually orders ka hisaab karta hai — agar aap woh 2 ghante zero kar do, to aapne usse mahine ke 60 ghante bacha diye. Us waqt ki value hi aapki fees hai. (Yehi freelancing ka core logic hai — Lesson 54 mein detail se.)
 
 ---
 
@@ -160,7 +160,7 @@ n8n ek **workflow automation platform** hai — matlab ek aisa tool jahan aap ap
 - **1,200+ integrations** — Gmail, WhatsApp, Google Sheets, Instagram... sab ready-made
 - **AI-native** — AI Agents, RAG, aur MCP built-in hain (Module 5 mein seekhenge)
 - **Open source** — code public hai, aap ise apne computer per **free chala sakte ho** (self-hosting — Module 6)
-- **Code jab chahiye** — JavaScript/Python likh sakte ho jab visual kaafi na ho (Lesson 12)
+- **Code jab chahiye** — JavaScript/Python likh sakte ho jab visual kaafi na ho (Lesson 15)
 
 ### n8n in Numbers (verified July 2026)
 
@@ -225,11 +225,11 @@ Yeh 6 cheezein is course ke actual lessons/projects hain — sab hum sath banaye
 
 | Project | Kya Karta Hai | Kahan Seekhenge |
 |---------|---------------|-----------------|
-| WhatsApp AI bots | Auto-reply, orders, FAQs | Lesson 22 + Capstone |
-| Lead capture pipelines | Form → CRM → instant follow-up | Mini Project 1 (Lesson 20) |
+| WhatsApp AI bots | Auto-reply, orders, FAQs | Lesson 32 + Capstone |
+| Lead capture pipelines | Form → CRM → instant follow-up | Mini Project 1 (Lesson 27) |
 | Invoice & report automation | Documents jo khud bante hain | Module 4 |
-| Social media auto-posting | Ek post → har platform | Lesson 24 |
-| AI customer support agents | RAG-powered, aapke business ko jaanta hai | Mini Project 3 (Lesson 36) |
+| Social media auto-posting | Ek post → har platform | Lesson 35 |
+| AI customer support agents | RAG-powered, aapke business ko jaanta hai | Mini Project 3 (Lessons 48–49) |
 | Daily business dashboards | Har subah numbers inbox mein | Module 4 |
 
 ---
@@ -245,7 +245,7 @@ Yeh 6 cheezein is course ke actual lessons/projects hain — sab hum sath banaye
 | 5 | AI Agents, RAG & MCP | 2026 ki superpower |
 | 6 | Production & Freelancing | Docker, clients, income |
 
-**Total: 42 lessons · 3 mini projects · 1 capstone** (complete AI business automation system)
+**Total: 58 lessons · 3 mini projects · 1 capstone** (complete AI business automation system)
 
 **Structure ka faida:** Har lesson pichle per build hota hai. Random videos nahi — ek seedhi seerhi hai. Isi liye order mein dekhna zaroori hai.
 
@@ -278,7 +278,7 @@ Yeh 6 cheezein is course ke actual lessons/projects hain — sab hum sath banaye
 
 | Mistake | Sahi Approach |
 |---------|---------------|
-| "Pehle coding seekhni paregi" soch kar rukna | Nahi. n8n visual hai — code Lesson 12 tak aayega hi nahi, aur tab bhi optional depth ke liye |
+| "Pehle coding seekhni paregi" soch kar rukna | Nahi. n8n visual hai — code Lesson 15 tak aayega hi nahi, aur tab bhi optional depth ke liye |
 | Automation sirf bare businesses ke liye samajhna | Chota dukaandar, student, freelancer — har koi repetitive kaam karta hai |
 | Tool-hopping (aaj Zapier, kal Make, parson kuch aur) | Ek tool deeply seekho. Concepts transfer ho jate hain, mastery nahi |
 | Sab kuch ek sath automate karne ki koshish | Ek workflow, phir agla. Chota shuru karo (Best Practices dekho) |
@@ -353,7 +353,7 @@ Answer first, then check the answers below. These are scenario-based — underst
 
 **Q1: (b)** — The trigger is the event that STARTS the process. The SMS arriving is the start; writing into the register is a step.
 
-**Q2: (b)** — n8n is visual-first. Code (JS/Python) is used only when you choose to — never required. In this course, code appears in Lesson 12, taught from scratch.
+**Q2: (b)** — n8n is visual-first. Code (JS/Python) is used only when you choose to — never required. In this course, code appears in Lesson 15, taught from scratch.
 
 **Q3: (c)** — Self-hosted n8n has no execution limits and zero license cost (you only need your own server/computer). Per-task and per-credit models get expensive at high volume.
 
@@ -369,7 +369,7 @@ Answer first, then check the answers below. These are scenario-based — underst
 2. **Every workflow follows the same pattern:** Trigger → Steps → Result — all the way up to AI agents
 3. **n8n** = open-source, AI-native, free to self-host — the best fit for our use case in 2026
 4. **The career is real:** $40–65/hr rates, 800+ Upwork jobs — but skill first, income second
-5. **This course:** 42 structured lessons, each built on the previous one — follow them in order
+5. **This course:** 58 structured lessons, each built on the previous one — follow them in order
 
 ---
 
