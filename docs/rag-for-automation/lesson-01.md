@@ -7,11 +7,15 @@ description: "RAG for Automation Lesson 01 — What is RAG, why LLMs alone fail 
 
 # Lesson 01 — What is RAG & Why Businesses Need It
 
-**Book:** RAG for Automation (Agentive Solutions) · **Lesson:** 1
+**Book:** RAG for Automation (Agentive Solutions) · **Lesson:** 1 of 8
 **Prerequisites:** Koi nahi — AI/ML background zaroori nahi. (n8n Mastery Lessons 1–3 helpful hain, lazmi nahi)
 **Facts verified:** 30 July 2026 — har claim ka source aur check date §15 ki table mein
 
 ---
+
+:::info 🎥 Video Lesson
+Video coming soon — the YouTube embed will appear here once this lesson is published on the SolutionsWithShahzain channel.
+:::
 
 ## 🖥️ Slides — Teaching Aid
 
@@ -59,7 +63,7 @@ By the end of this lesson you will be able to:
 - [ ] Choose between RAG, fine-tuning and long context for a client
 - [ ] Identify 3 business use cases where RAG makes money (assignment)
 
-> **Note:** Yeh lesson pura conceptual hai — koi code nahi. Hands-on kaam Lesson 2 se shuru hoga (embeddings), aur Lesson 3 mein pehla vector database khud banayenge. Aur haan — is page ke corner mein jo chat tutor hai, **woh khud ek RAG system hai** jo isi book per chalta hai. Aaj aap wohi cheez samajhne ja rahe hain jo abhi aapke samne chal rahi hai.
+> **Note:** Yeh lesson pura conceptual hai — koi code nahi. Hands-on kaam Lesson 2 se shuru hoga (embeddings + vector database). Aur haan — is page ke corner mein jo chat tutor hai, **woh khud ek RAG system hai** jo isi book per chalta hai. Aaj aap wohi cheez samajhne ja rahe hain jo abhi aapke samne chal rahi hai.
 
 ---
 
@@ -166,7 +170,7 @@ Diagram mein teen naye lafz aaye — **chunk**, **embedding**, **vector database
 
 > 🗣️ English: A chunk is a piece of a document. An embedding turns that piece's meaning into numbers. A vector database stores those numbers and finds the closest ones fast.
 
-**Bas itna kaafi hai.** Kyun aur kaise — Lesson 2 (embeddings), Lesson 3 (vector databases) aur Lesson 4 (chunking) mein.
+**Bas itna kaafi hai.** Kyun aur kaise — Lesson 2 (embeddings + vector database) aur Lesson 3 (chunking) mein.
 
 ### Each Step in Our Live System
 
@@ -407,7 +411,7 @@ A: The answer is based only on the retrieved context, not the model's internal (
 
 ---
 
-**Next Lesson →** [Lesson 02 — What are Embeddings?](./lesson-02.md)
+**Next Lesson →** Lesson 02 — Embeddings & Vector Databases *(coming soon)*
 
 **Agentive Solutions** · [YouTube](https://www.youtube.com/@SolutionsWithShahzain) · [GitHub](https://github.com/Shahzain-Ali) · [LinkedIn](https://linkedin.com/in/shahzain-ali1) · [Instagram](https://instagram.com/shahzainalibangash1) · [Facebook](https://facebook.com/shahzainalibangash1)
 

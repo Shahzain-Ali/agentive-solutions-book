@@ -32,7 +32,6 @@ const sidebars = {
       collapsed: false,
       items: [
         'rag-for-automation/lesson-01',
-        'rag-for-automation/lesson-02',
       ],
     },
     {
