@@ -28,10 +28,19 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: '🔌 n8n Webhooks & MCP',
+      collapsed: false,
+      items: [
+        'n8n-webhooks-and-mcp/lesson-01',
+      ],
+    },
+    {
+      type: 'category',
       label: '📕 RAG for Automation',
       collapsed: false,
       items: [
         'rag-for-automation/lesson-01',
+        'rag-for-automation/lesson-02',
       ],
     },
     {
