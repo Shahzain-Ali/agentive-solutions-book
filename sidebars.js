@@ -36,6 +36,14 @@ const sidebars = {
     },
     {
       type: 'category',
+      label: '📸 Instagram Automation',
+      collapsed: true,
+      items: [
+        'instagram-automation/lesson-01',
+      ],
+    },
+    {
+      type: 'category',
       label: '📕 RAG for Automation',
       collapsed: true,
       items: [

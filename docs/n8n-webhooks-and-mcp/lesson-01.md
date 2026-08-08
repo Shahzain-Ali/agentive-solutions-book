@@ -75,7 +75,7 @@ Aap
 
 > 🗣️ **Roman Urdu:** Aap ke instance par ek darwaza, jahan se Claude Code andar ja kar workflows parh aur badal sakta hai. Is se pehle JSON export kar ke Import from File karna parta tha — ye us chakkar ko khatam kar deta hai.
 
-### Do alag "MCP" — inhe mat milayein
+### Two Different Things Called MCP
 
 | | **Instance MCP server** *(ye lesson)* | **MCP Server Trigger node** |
 |---|---|---|
@@ -85,7 +85,7 @@ Aap
 
 > 🗣️ **Roman Urdu:** Pehla wo hai jahan Claude Code aap ke n8n ko chalata hai. Doosra wo jahan aap ki workflow kisi AI ko apne tools deti hai. **Rukh ulta hai.**
 
-### Teen switch — teenon on hone chahiyen
+### Three Switches — All Must Be On
 
 ```
      Claude Code                      n8n Cloud
@@ -110,7 +110,7 @@ Aap
 
 ## 4. Step-by-Step Implementation
 
-### Step 1 — Instance-level MCP enable karein
+### Step 1 — Enable Instance-Level MCP
 
 🧑 n8n Cloud → **Settings** → **Instance-level MCP** → **Enable MCP access** toggle ON
 
@@ -122,7 +122,7 @@ Aap
 
 ---
 
-### Step 2 — Server URL copy karein
+### Step 2 — Copy the Server URL
 
 Panel se URL lein. Shakl ye hogi:
 
@@ -136,7 +136,7 @@ https://<aap-ka-instance>.app.n8n.cloud/mcp-server/http
 
 ---
 
-### Step 3 — Claude Code mein server register karein
+### Step 3 — Register the Server with Claude Code
 
 📋 Terminal mein:
 
@@ -153,7 +153,7 @@ Added HTTP MCP server n8n-cloud with URL: ... to local config
 
 ---
 
-### Step 4 — Claude Code restart karein
+### Step 4 — Restart Claude Code
 
 🧑 Claude Code band karein, dobara kholein.
 
@@ -163,7 +163,7 @@ Added HTTP MCP server n8n-cloud with URL: ... to local config
 
 ---
 
-### Step 5 — OAuth authorisation
+### Step 5 — Complete the OAuth Authorisation
 
 🧑 `/mcp` type karein → `n8n-cloud` chunein → **Authenticate** → browser mein **Authorize**
 
@@ -177,7 +177,7 @@ Added HTTP MCP server n8n-cloud with URL: ... to local config
 
 ---
 
-### Step 6 — Us workflow ka MCP access on karein
+### Step 6 — Enable MCP Access on the Workflow
 
 🧑 n8n → **Workflows** → jis workflow par kaam karna hai, us ke card par **⋯** → **Enable MCP access**
 
@@ -194,7 +194,7 @@ Added HTTP MCP server n8n-cloud with URL: ... to local config
 
 ---
 
-### Step 7 — Connection tasdeeq karein
+### Step 7 — Verify the Connection
 
 📋 Claude Code mein:
 
