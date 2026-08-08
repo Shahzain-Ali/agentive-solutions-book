@@ -11,7 +11,7 @@ const sidebars = {
     {
       type: 'category',
       label: '⚙️ n8n Mastery',
-      collapsed: false,
+      collapsed: true,
       items: [
         {
           type: 'category',
@@ -29,7 +29,7 @@ const sidebars = {
     {
       type: 'category',
       label: '🔌 n8n Webhooks & MCP',
-      collapsed: false,
+      collapsed: true,
       items: [
         'n8n-webhooks-and-mcp/lesson-01',
       ],
@@ -37,7 +37,7 @@ const sidebars = {
     {
       type: 'category',
       label: '📕 RAG for Automation',
-      collapsed: false,
+      collapsed: true,
       items: [
         'rag-for-automation/lesson-01',
         'rag-for-automation/lesson-02',
@@ -46,7 +46,7 @@ const sidebars = {
     {
       type: 'category',
       label: '🎯 Standalone Guides',
-      collapsed: false,
+      collapsed: true,
       items: [
         'standalone-guides/ai-automation-vs-ai-agents',
       ],
