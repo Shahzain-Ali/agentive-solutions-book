@@ -40,6 +40,7 @@ const sidebars = {
       collapsed: true,
       items: [
         'instagram-automation/lesson-01',
+        'instagram-automation/lesson-02',
       ],
     },
     {
@@ -49,6 +50,7 @@ const sidebars = {
       items: [
         'rag-for-automation/lesson-01',
         'rag-for-automation/lesson-02',
+        'rag-for-automation/lesson-03',
       ],
     },
     {

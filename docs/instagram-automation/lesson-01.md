@@ -219,7 +219,7 @@ instagram_business_manage_messages      ← DMs ke liye
 | Setting | Value |
 |---------|-------|
 | **Allow Multiple HTTP Methods** | **ON** → `GET` aur `POST` dono |
-| **Path** | `instagram-webhook` |
+| **Path** | `instagram-webhook-setup` |
 | **Respond** | *Using 'Respond to Webhook' Node* |
 
 **Expected result:** node par do URL nazar aate hain — **Test URL** aur **Production URL**.
@@ -260,7 +260,7 @@ Webhook ─ output 0 (GET)  ──▶ IF: verify token sahi hai?
 
 **Expected result:** URL is shakl mein hoga:
 ```
-https://<aap-ka-instance>.app.n8n.cloud/webhook/instagram-webhook
+https://<aap-ka-instance>.app.n8n.cloud/webhook/instagram-webhook-setup
 ```
 
 > ⚠️ **Test URL nahi — Production URL.** Test URL sirf tab zinda hota hai jab aap *"Listen for test event"* daba kar baithe hon. Aur **workflow Active na ho to Production URL 404 deta hai**, jis se Meta ki verification foran fail ho jati hai.
@@ -470,6 +470,6 @@ A: Not on the Instagram Login path. That path works on an Instagram professional
 
 ---
 
-**Next Lesson →** Lesson 02 — Auto-Reply to Instagram Comments and DMs *(coming soon)*
+**Next Lesson →** [Lesson 02 — Auto-Reply to Comments and DMs](./lesson-02.md)
 
 **Agentive Solutions** · [YouTube](https://www.youtube.com/@SolutionsWithShahzain) · [GitHub](https://github.com/Shahzain-Ali) · [LinkedIn](https://linkedin.com/in/shahzain-ali1) · [Instagram](https://instagram.com/shahzainalibangash1) · [Facebook](https://facebook.com/shahzainalibangash1)
