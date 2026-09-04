@@ -11,7 +11,7 @@ description: "Reply automatically to Instagram comments and DMs from n8n, and st
 **Lesson:** 2
 **Type:** Implementation guide
 **Prerequisites:** Lesson 01 completed — events already arriving in your n8n workflow
-**Facts verified:** August 2026 — Instagram Platform API v25.0, tested live on the author's own account
+**Facts verified:** September 2026 — Instagram Platform API v25.0, tested live on the author's own account (n8n 2.32.5)
 
 ---
 
@@ -153,6 +153,19 @@ In teenon mein `message` object **maujood hota hai** — to Guard 2 aaram se pas
 
 Iske baghair bot khali text par reply bhej deta. Aur aage chal kar jab AI add hoga, us AI ko khali input jayega — aur khali input par model kuch bhi bana deta hai.
 
+**To aisi DM jati kahan hai?** Kisi bhi rule se match nahi karti, is liye **fallback output** par chali jati hai aur `Ignored Event` par ruk jati hai:
+
+| | |
+|---|---|
+| Reply jata hai? | ❌ nahi |
+| Kahin store hota hai? | ❌ nahi |
+| Koi alert? | ❌ nahi |
+| Execution ka status? | ✅ successful — green tick |
+
+Yani customer ne kuch bheja aur usay **koi jawab nahi mila**, aur kahin koi nishan bhi nahi. Is lesson mein ye jaan bujh kar aisa hi hai — yahan ka scope loop guards hai.
+
+> 🗣️ Image, sticker aur voice note ko waqai handle karna — fallback reply bhejna, aur voice note par human ko alert karna — **aage ke lessons** mein aayega. Abhi sirf itna yaad rakhein ke ye events chup-chaap drop ho rahe hain, aur ye ek jaana pehchana gap hai, bhool nahi.
+
 > 💡 Ye guard ek **doosri layer** ka kaam bhi karta hai. Meta kal koi naya event type add kar sakta hai. Agar us mein text na hua, to bot **chup rahega** — pagal nahi hoga.
 
 ### Guard 4 — `from_id ≠ account_id`  🛡️
@@ -241,20 +254,23 @@ Credential ka name set karein: `Instagram Token`
 
 **Routing Rule 1** — output ka naam `comment`:
 
-| # | Left value | Operator | Right value |
-|---|-----------|----------|-------------|
-| 1 | `{{ $json.event_type }}` | is equal to | `comments` |
-| 2 | `{{ $json.comment_id }}` | is not empty | — |
-| 3 | `{{ $json.parent_id }}` | is empty | — |
+| Field | Value |
+|-------|-------|
+| **Left value** | `{{ $json.event_type === 'comments' && $json.comment_id && !$json.parent_id }}` |
+| **Data type** | `Boolean` |
+| **Operator** | `is true` |
 
 **Routing Rule 2** — output ka naam `dm`:
 
-| # | Left value | Operator | Right value |
-|---|-----------|----------|-------------|
-| 1 | `{{ $json.event_type }}` | is equal to | `message` |
-| 2 | `{{ $json.is_echo }}` | is false | — |
-| 3 | `{{ $json.from_id }}` | is not equal to | `{{ $json.account_id }}` |
-| 4 | `{{ $json.text }}` | is not empty | — |
+| Field | Value |
+|-------|-------|
+| **Left value** | `{{ $json.event_type === 'message' && $json.is_echo === false && $json.from_id !== $json.account_id && $json.text !== '' }}` |
+| **Data type** | `Boolean` |
+| **Operator** | `is true` |
+
+> ⚠️ **Saari shartein ek hi expression mein kyun hain?** Switch node ke ek routing rule ke andar doosri condition add karne ka koi button UI mein nahi milta — jo **Add Routing Rule** dikhta hai wo naya **output** banata hai, ek aur shart nahi. *(n8n 2.32.5 par khud test kiya — 2026-09-04.)* Is liye teeno shartein ek Boolean expression mein likhi jati hain. `&&` ka matlab wohi **AND** hai.
+
+> 💡 Har expression ka **aakhri hissa** aisa rakha gaya hai jo hamesha `true`/`false` deta hai — `!$json.parent_id` aur `$json.text !== ''`. Wajah: JavaScript mein `&&` aakhri **value** return karta hai, `true` nahi. Agar aakhir mein sirf `$json.text` likh dein to expression ek string return karegi, aur `"0"` likhi hui DM galti se drop ho sakti hai.
 
 🧑 **Options** → *Add option* → **Fallback Output** → `Extra Output`
 
@@ -371,6 +387,7 @@ Har item **apni screen par dekh kar** tick karein:
 
 - [ ] `Extract Event Data` ke output mein **9** fields hain
 - [ ] Ek echo wali execution mein `is_echo` ki value **`true`** hai, aur wo `Ignored Event` par khatam hui
+- [ ] Dono routing rules ka **Data type** `Boolean` aur operator `is true` hai
 - [ ] `Route Event` par **3** outputs nazar aate hain
 - [ ] Teesra output `Ignored Event` se **juda hua** hai
 - [ ] Dono HTTP nodes par credential **attached** hai
@@ -390,13 +407,32 @@ Ye woh masail hain jo is build ke doran **waqai** pesh aaye:
 
 | Error / Symptom | Cause | Solution |
 |-----------------|-------|----------|
-| Ek DM ka jawab **baar baar** jata hai | `is_echo` guard nahi laga, ya uska type String rakh diya gaya hai | Rule 2 mein `is_echo is false` add karein, aur field ka type **Boolean** karein |
-| Bot **apne hi comment reply** ka jawab deta hai | Rule 1 mein `parent_id is empty` wali condition nahi hai | Wo condition add karein |
+| Ek DM ka jawab **baar baar** jata hai | `is_echo` wala hissa expression mein nahi hai, ya field ka type String rakh diya gaya hai | Rule 2 ki expression mein `$json.is_echo === false` add karein, aur `Extract Event Data` mein field ka type **Boolean** karein |
+| Bot **apne hi comment reply** ka jawab deta hai | Rule 1 ki expression mein `!$json.parent_id` nahi hai | Wo hissa expression mein add karein |
 | Event aata hai lekin **kuch nahi chalta**, koi error bhi nahi | Event kisi rule se match nahi kar raha aur fallback output nahi hai | Fallback Output → `Extra Output`, aur `Ignored Event` se connect karein |
 | Canvas naya dikhta hai lekin **behaviour purana** | Workflow save hua, **publish nahi** | Publish karein · `activeVersionId` khali nahi hona chahiye |
 | HTTP node par authorization error | Credential attach nahi hui | Node → Authentication → Header Auth → `Instagram Token` |
+| `400 — {"message":"Invalid OAuth 2.0 Access Token","code":190}` — credential attached hone ke bawajood | Credential ki **Value** mein `Bearer ` prefix nahi hai, sirf token para hua hai | Value ko `Bearer` + **ek space** + token karein. Aage ya peeche koi space/newline na ho |
+| Token curl mein chalta hai lekin n8n mein `190` deta hai | Credential mein purana token para hai, aur test naye token se ho raha hai | Dono ko ek karein — jo token curl mein chala, wohi credential mein daalein |
 | DM reply fail — *"outside of allowed window"* | User ne pichhle 24 ghante mein message nahi bheja | User ka naya message aane ka intezar karein — ye galti nahi, Meta ka rule hai |
-| `is_echo` guard kaam nahi kar raha | Field ka type String rakh diya gaya hai | Type **Boolean** karein |
+| `is_echo` guard kaam nahi kar raha | `Extract Event Data` mein field ka type String rakh diya gaya hai — `"false"` ek non-empty string hai, aur `=== false` us par kabhi true nahi hota | Type **Boolean** karein |
+| Rule ki expression hamesha match kar rahi hai | Expression ka aakhri hissa boolean nahi hai (jaise sirf `$json.text`), aur `&&` aakhri value return karta hai | Aakhir mein comparison likhein — `$json.text !== ''` |
+
+### Token ko alag se test karna
+
+Jab `190` jaisa auth error aaye, sab se pehle ye tay karein ke masla **token** mein hai ya **n8n** mein. Token ko workflow se bahar, akela test karein:
+
+📋
+```bash
+curl "https://graph.instagram.com/v25.0/me?fields=id,username&access_token=<aap_ka_token>"
+```
+
+| Jawab | Matlab |
+|-------|--------|
+| `{"id":"...","username":"..."}` | Token **theek hai** — masla n8n credential mein hai |
+| `"code": 190` | Token **kharab hai** — naya banayein |
+
+> 🗣️ Ye aadat har debugging mein kaam aati hai: jab do cheezein shak ke daayre mein hon, aisa test banayein jo **ek** ko poori tarah nikal de. Ek ek combination try karte rehna sab se sust rasta hai.
 
 ---
 
@@ -416,7 +452,7 @@ Ye woh masail hain jo is build ke doran **waqai** pesh aaye:
 1. Every reply the bot sends comes back as a new webhook event, so an unguarded reply bot answers itself forever.
 2. With `comments` and `messages` subscribed there are exactly two self-generated events, and Meta marks each one: a comment reply carries `parent_id`, a sent DM carries `is_echo`. Those two marks are the two loop guards.
 3. Not every guard is a loop guard. Requiring non-empty text blocks nothing that loops — it blocks images, stickers and voice notes, where there is no text to reply to at all.
-4. Four conditions, not one, are what make the routing safe; each blocks a different event and none substitutes for another.
+4. Four checks, not one, are what make the routing safe — each blocks a different event and none substitutes for another. They are written as a single boolean expression only because the Switch UI allows one condition per rule; that is a UI constraint, not a simplification of the logic.
 5. A fallback output turns silent disappearance into a visible, explainable outcome — which is the difference between a system you can debug and one you can only guess at.
 
 ---
@@ -447,6 +483,7 @@ A: So that "nothing happened" is recorded rather than inferred. Without it, unma
 | Live executions 49–56 on the author's own account | The infinite loop: one DM, eight executions, four identical replies | 2026-08-14 |
 | Live executions 58–73 on the author's own account | Every guard in this lesson, verified after the fix | 2026-08-14 |
 | Live executions 86–87 on the author's own account | One DM produces exactly two executions — the reply, and the echo dropped by the guard | 2026-08-17 |
+| Live executions 403–408 on the author's own account (n8n 2.32.5) | The Switch node's single-condition-per-rule UI, the boolean-expression routing that replaced it, and the `code 190` caused by a missing `Bearer` prefix | 2026-09-04 |
 
 > The loop in §3 is not an illustration. It happened on the author's own Instagram account, the
 > workflow had to be unpublished by hand to stop it, and the payload that caused it is quoted in
