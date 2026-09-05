@@ -50,6 +50,7 @@ const sidebars = {
       items: [
         'rag-for-automation/lesson-01',
         'rag-for-automation/lesson-02',
+        'rag-for-automation/lesson-03',
       ],
     },
     {
