@@ -371,3 +371,234 @@ html {
     transform: translateY(0);
   }
 }
+
+/* ==========================================================================
+   SIDEBAR COLLAPSE CONTROL — a pull-tab on the sidebar's right edge
+   ==========================================================================
+   Docusaurus ships this control as a full-width 40px bar glued to the BOTTOM
+   of the sidebar. We want a short vertical tab on the sidebar's RIGHT EDGE,
+   centred at about 50% of the sidebar's height, and the mirrored twin of that
+   tab at the viewport's LEFT EDGE once the sidebar is hidden.
+
+   The DOM the theme actually renders (v3.1):
+
+     aside.theme-doc-sidebar-container      clip-path: inset(0); width: 300px
+       └ div[class*=sidebarViewport]        position: sticky; top:0; max-height:100vh
+           ├ div[class*=sidebar]            display:flex; column; height:100%
+           │   ├ nav.menu                   (the links)
+           │   └ button[class*=collapseSidebarButton]
+           └ div[class*=expandButton]       only while hidden; fills the strip
+
+   THREE THINGS THIS OVERRIDE HAS TO GET RIGHT
+   -------------------------------------------------------------------------
+   1. ELEMENT-QUALIFIED SUBSTRING SELECTORS.
+      The hashes (_PEFL, _kv0_, _TmdG, _i1dp) change on every upgrade, so we
+      match on a substring. But note that the string "collapseSidebarButton" is
+      ALSO a substring of "collapseSidebarButtonIcon" — a bare
+      [class*='collapseSidebarButton'] therefore hits the <svg> icon as well as
+      the <button>, and the icon inherits the tab's size, border and absolute
+      position. Same trap with expandButton / expandButtonIcon. Qualifying by
+      element (button[...], div[...], svg[...]) keeps the two apart.
+
+   2. THE CONTAINING BLOCK IS .sidebarViewport, NOT THE <aside>.
+      position: sticky → absolute lifts the button out of the flex column so it
+      can be centred. The nearest positioned ancestor is .sidebarViewport, which
+      the theme caps at max-height:100vh — so `top: 50%` lands at the middle of
+      the screen. Anchoring to the <aside> instead would be wrong: the aside is
+      as tall as the whole page, so 50% of it sits far below the fold on a long
+      lesson. (This is why setting position:relative on the aside backfires.)
+
+   3. INFIMA'S BUTTON CLASSES HAVE TO BE UNDONE.
+      The control also carries `button button--secondary button--outline`, which
+      bring their own padding, min-width, colours and a solid hover fill. Left
+      alone they fight every rule below.
+
+   Desktop only — on mobile the sidebar is a drawer with no collapse control.
+   Colours come from Docusaurus variables so light and dark both work.
+   ========================================================================== */
+
+@media (min-width: 997px) {
+  :root {
+    --asb-tab-width: 26px;
+    --asb-tab-height: 54px;
+
+    /* The chevron is drawn in CSS, not taken from the theme's icon — see the
+       chevron block below for why. Size = the arm length before rotation. */
+    --asb-chevron-size: 7px;
+    --asb-chevron-stroke: 2px;
+  }
+
+  /* ---------- Expanded state: tab on the sidebar's right edge ---------- */
+
+  button[class*='collapseSidebarButton'] {
+    /* Out of the flex column, centred on the right edge (see note 2). */
+    position: absolute;
+    top: 50%;
+    right: 0;
+    bottom: auto;
+    left: auto;
+    transform: translateY(-50%);
+    z-index: 5;
+
+    width: var(--asb-tab-width);
+    min-width: var(--asb-tab-width);
+    height: var(--asb-tab-height);
+
+    /* Undo Infima's .button geometry (see note 3). */
+    padding: 0;
+    margin: 0;
+
+    /* The theme ships `display: block !important`, so this needs it too. */
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--ifm-background-surface-color);
+    color: var(--ifm-font-color-base);
+
+    /* Rounded on the outer side only; the edge touching the sidebar stays
+       open, so the tab reads as part of the panel, not a floating button. */
+    border: 1px solid var(--ifm-toc-border-color);
+    border-right: 0;
+    border-radius: 8px 0 0 8px;
+    box-shadow: -2px 0 6px rgb(0 0 0 / 8%);
+
+    transition: background-color var(--ifm-transition-fast) ease;
+  }
+
+  button[class*='collapseSidebarButton']:hover {
+    background-color: var(--docusaurus-collapse-button-bg-hover);
+    border-color: var(--ifm-toc-border-color);
+  }
+
+  /* Keyboard users still need to see where they are. */
+  button[class*='collapseSidebarButton']:focus-visible {
+    background-color: var(--docusaurus-collapse-button-bg-hover);
+    outline: 2px solid var(--ifm-color-primary);
+    outline-offset: 2px;
+  }
+
+  /* ---------- The chevron ----------
+     Docusaurus's IconArrow is a DOUBLE chevron («) and we want a single one.
+     CSS-only means the SVG cannot be swapped, so it is hidden and the chevron
+     is drawn from two borders on a square turned 45deg.
+
+     Two reasons to draw it rather than resize the SVG:
+       · the SVG is `<svg width="20" height="20">` with NO viewBox, so CSS
+         width/height shrink its viewport without scaling the artwork — the
+         drawing just gets clipped;
+       · borders take `currentColor`, so light and dark themes need no extra
+         rules, and the stroke stays crisp at any size.
+
+     The SVG is aria-hidden in the theme, so hiding it costs nothing for screen
+     readers — the button keeps its own title and aria-label. */
+
+  button[class*='collapseSidebarButton'] svg,
+  div[class*='expandButton'] svg {
+    display: none;
+  }
+
+  button[class*='collapseSidebarButton']::after,
+  div[class*='expandButton']::after {
+    content: '';
+    display: block;
+    width: var(--asb-chevron-size);
+    height: var(--asb-chevron-size);
+    border: 0 solid currentColor;
+    transform: rotate(45deg);
+  }
+
+  /* "<" = collapse — bottom and left arms */
+  button[class*='collapseSidebarButton']::after {
+    border-bottom-width: var(--asb-chevron-stroke);
+    border-left-width: var(--asb-chevron-stroke);
+  }
+
+  /* ---------- Collapsed state: the same tab, mirrored, on the left ----------
+     The theme stretches this div across the whole 30px strip and hangs the
+     click handler on it. Keep it full-size so the entire strip stays a target,
+     and paint the tab as a ::before behind the icon instead of shrinking it. */
+
+  div[class*='expandButton'] {
+    background-color: transparent;
+    color: var(--ifm-font-color-base); /* the chevron reads currentColor */
+
+    /* The collapsed strip is --doc-sidebar-hidden-width (30px) but the tab is
+       only 26px wide, so pull the content left by the difference to centre the
+       chevron on the tab rather than on the strip. */
+    padding-right: calc(var(--doc-sidebar-hidden-width) - var(--asb-tab-width));
+  }
+
+  div[class*='expandButton']::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+
+    width: var(--asb-tab-width);
+    height: var(--asb-tab-height);
+
+    background-color: var(--ifm-background-surface-color);
+    border: 1px solid var(--ifm-toc-border-color);
+    border-left: 0;
+    border-radius: 0 8px 8px 0;
+    box-shadow: 2px 0 6px rgb(0 0 0 / 8%);
+
+    transition: background-color var(--ifm-transition-fast) ease;
+  }
+
+  div[class*='expandButton']:hover::before,
+  div[class*='expandButton']:focus-visible::before {
+    background-color: var(--docusaurus-collapse-button-bg-hover);
+  }
+
+  /* ">" = expand — top and right arms */
+  div[class*='expandButton']::after {
+    position: relative; /* lift the chevron above the ::before tab */
+    z-index: 1;
+    border-top-width: var(--asb-chevron-stroke);
+    border-right-width: var(--asb-chevron-stroke);
+  }
+
+  /* ---------- RTL: the sidebar moves to the right, so mirror the tab ----------
+     Needed once Urdu or Arabic are switched on. */
+
+  [dir='rtl'] button[class*='collapseSidebarButton'] {
+    right: auto;
+    left: 0;
+    border-right: 1px solid var(--ifm-toc-border-color);
+    border-left: 0;
+    border-radius: 0 8px 8px 0;
+    box-shadow: 2px 0 6px rgb(0 0 0 / 8%);
+  }
+
+  /* Chevrons swap arms, not rotation — the 45deg turn stays the same. */
+  [dir='rtl'] button[class*='collapseSidebarButton']::after {
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-top-width: var(--asb-chevron-stroke);
+    border-right-width: var(--asb-chevron-stroke);
+  }
+
+  [dir='rtl'] div[class*='expandButton'] {
+    padding-right: 0;
+    padding-left: calc(var(--doc-sidebar-hidden-width) - var(--asb-tab-width));
+  }
+
+  [dir='rtl'] div[class*='expandButton']::before {
+    left: auto;
+    right: 0;
+    border-left: 1px solid var(--ifm-toc-border-color);
+    border-right: 0;
+    border-radius: 8px 0 0 8px;
+    box-shadow: -2px 0 6px rgb(0 0 0 / 8%);
+  }
+
+  [dir='rtl'] div[class*='expandButton']::after {
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: var(--asb-chevron-stroke);
+    border-left-width: var(--asb-chevron-stroke);
+  }
+}

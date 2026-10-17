@@ -1,0 +1,30 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.booksSidebar.category.⚙️ n8n Mastery": {
+    "message": "⚙️ n8n Mastery",
+    "description": "The label for category ⚙️ n8n Mastery in sidebar booksSidebar"
+  },
+  "sidebar.booksSidebar.category.🔌 n8n Webhooks & MCP": {
+    "message": "🔌 n8n Webhooks & MCP",
+    "description": "The label for category 🔌 n8n Webhooks & MCP in sidebar booksSidebar"
+  },
+  "sidebar.booksSidebar.category.📸 Instagram Automation": {
+    "message": "📸 Instagram Automation",
+    "description": "The label for category 📸 Instagram Automation in sidebar booksSidebar"
+  },
+  "sidebar.booksSidebar.category.📕 RAG for Automation": {
+    "message": "📕 RAG for Automation",
+    "description": "The label for category 📕 RAG for Automation in sidebar booksSidebar"
+  },
+  "sidebar.booksSidebar.category.🎯 Standalone Guides": {
+    "message": "🎯 Standalone Guides",
+    "description": "The label for category 🎯 Standalone Guides in sidebar booksSidebar"
+  },
+  "sidebar.booksSidebar.doc.📚 Library": {
+    "message": "📚 Library",
+    "description": "The label for the doc item 📚 Library in sidebar booksSidebar, linking to the doc index"
+  }
+}

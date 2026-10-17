@@ -30,8 +30,26 @@ const config = {
   },
 
   i18n: {
+    // English is the default locale, so `docs/` holds the ENGLISH content and
+    // `i18n/ur-Latn/.../current/` holds the Roman Urdu translation.
     defaultLocale: 'en',
-    locales: ['en'],
+
+    locales: ['en', 'ur-Latn'],
+
+    localeConfigs: {
+      en: {
+        label: 'English',
+        direction: 'ltr',
+        htmlLang: 'en',
+      },
+      // BCP 47: Urdu written in Latin script. Do NOT use plain 'ur' — that
+      // means Arabic-script Urdu, and it flips the whole site to RTL.
+      'ur-Latn': {
+        label: 'Roman Urdu',
+        direction: 'ltr',
+        htmlLang: 'ur-Latn',
+      },
+    },
   },
 
   presets: [
@@ -41,8 +59,9 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl:
-            'https://github.com/Shahzain-Ali/agentive-solutions-book/tree/main/',
+          // No editUrl — the source repository is not linked from the site.
+          // It may be made private later; a public "Edit this page" link on
+          // every lesson is the widest possible invitation to clone it.
         },
         blog: false, // Book site — no blog
         theme: {
@@ -61,6 +80,13 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       image: 'img/logo.svg',
+      docs: {
+        sidebar: {
+          // Adds the collapse tab on the sidebar's right edge.
+          hideable: true,
+          autoCollapseCategories: false,
+        },
+      },
       navbar: {
         title: 'Agentive Solutions',
         logo: {
@@ -75,8 +101,12 @@ const config = {
             label: 'Books',
           },
           {
-            href: 'https://github.com/Shahzain-Ali/agentive-solutions-book',
-            label: 'GitHub',
+            type: 'localeDropdown',
+            position: 'right',
+          },
+          {
+            href: 'https://www.youtube.com/@SolutionsWithShahzain',
+            label: 'YouTube',
             position: 'right',
           },
         ],
@@ -101,6 +131,10 @@ const config = {
             title: 'Connect',
             items: [
               {
+                label: 'YouTube',
+                href: 'https://www.youtube.com/@SolutionsWithShahzain',
+              },
+              {
                 label: 'LinkedIn',
                 href: 'https://linkedin.com/in/shahzain-ali1',
               },
@@ -111,15 +145,6 @@ const config = {
               {
                 label: 'Facebook',
                 href: 'https://facebook.com/shahzainalibangash1',
-              },
-            ],
-          },
-          {
-            title: 'More',
-            items: [
-              {
-                label: 'Book GitHub',
-                href: 'https://github.com/Shahzain-Ali/agentive-solutions-book',
               },
             ],
           },

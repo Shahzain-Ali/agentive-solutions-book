@@ -13,16 +13,9 @@ const sidebars = {
       label: '⚙️ n8n Mastery',
       collapsed: true,
       items: [
-        {
-          type: 'category',
-          label: 'Module 1 — Foundations',
-          collapsed: false,
-          items: [
-            'n8n-mastery/lesson-01',
-            'n8n-mastery/lesson-02',
-            'n8n-mastery/lesson-03',
-          ],
-        },
+        'n8n-mastery/lesson-01',
+        'n8n-mastery/lesson-02',
+        'n8n-mastery/lesson-03',
         'n8n-mastery/coming-soon',
       ],
     },
